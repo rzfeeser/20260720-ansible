@@ -1,0 +1,22 @@
+---
+# author: rzfeeser
+# description: basic playbook
+  
+# play section
+- name: Our first playbook
+  hosts: all   # if not sure, write all
+  gather_facts: True   # runs a pre step that audits a target
+  tasks:
+
+    - name: Create a file on a target(s)
+      ansible.builtin.copy:
+        content: "Put this in the file"
+        dest: ansible_made_this.txt
+  
+    - name: Create a second file on a target(s)
+      ansible.builtin.copy:
+        content: "This goes in a second file"
+        dest: ansible_made_this2.txt
+
+
+        
