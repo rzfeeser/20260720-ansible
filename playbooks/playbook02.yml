@@ -1,0 +1,21 @@
+---
+- name: Tuesday morning review
+  gather_facts: False   # keep this off unless you are using `ansible_facts`
+  hosts: all  # if you are unsure what you intend to target, just use `all`
+  connection: ansible.builtin.local  # typical when working with HTTP
+
+  tasks:
+  - name: Make an api request to pokeapi.co
+    ansible.builtin.uri:
+      url: https://pokeapi.co/api/v2/pokemon/pikachu       # the thing to lookup
+      method: GET    # type of http method to send
+    register: pokemonresp   # save the results into a var named `pokemonresp`
+
+  - name: What is in pokemonresp
+    ansible.builtin.debug:
+      var: pokemonresp   # no "{{ pokemonresp }}" required because we used the param var
+
+  - name: Place response into new file
+    ansible.builtin.copy:
+      content: "{{ pokemonresp.json }}"    # This should be the JSON returned to our api call
+      dest: pokemon.json
